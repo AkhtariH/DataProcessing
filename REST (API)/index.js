@@ -9,7 +9,6 @@ var mysql = require('mysql');
 
 // define route variables
 var countriesRouter = require('./routes/countries');
-var jsonSchemeRouter = require('./routes/draft07');
 var xmlPOSTSchemeRouter = require('./routes/countriesXML');
 //var countriesXMLRouter = require('./routes/countriesXML');
 
@@ -29,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define all routes
 app.use('/api/v1/countries', countriesRouter);
-app.use('/api/v1/validate/json', jsonSchemeRouter);
 app.use('/api/v1/countries/xml', xmlPOSTSchemeRouter);
 
 // catch 404 and forward to error handler
