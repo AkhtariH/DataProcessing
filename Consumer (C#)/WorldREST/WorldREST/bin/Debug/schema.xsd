@@ -1,0 +1,98 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Countries">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Country">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Code" default="AAA">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value = "3"/>
+                    <xs:maxLength value = "3"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element type="xs:string" name="Name"/>
+              <xs:element type="xs:string" name="Continent"/>
+              <xs:element type="xs:string" name="Region"/>
+              <xs:element type="xs:int" name="SurfaceArea" default="0"/>
+              <xs:element type="xs:int" name="Population" default="0"/>
+              <xs:element name="LifeExpectancy" default="0.0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:float">
+                    <xs:maxInclusive value = "100.0"/>
+                    <xs:minInclusive value = "0.0"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element type="xs:int" name="GNP" default="0"/>
+              <xs:element type="xs:string" name="HeadOfState"/>
+              <xs:element type="xs:int" name="Capital" default="0"/>
+              <xs:element name="Code2" default="AA">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value = "2"/>
+                    <xs:maxLength value = "2"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Cities">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="City" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:string" name="Name"/>
+                          <xs:element name="CountryCode">
+                           <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value = "3"/>
+                                <xs:maxLength value = "3"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element type="xs:int" name="Population" default="0"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Languages">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Language" maxOccurs="unbounded" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="CountryCode">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:string">
+                                <xs:maxLength value = "3"/>
+                                <xs:maxLength value = "3"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                          <xs:element type="xs:string" name="Language" default="English"/>
+                          <xs:element type="xs:string" name="IsOfficial" default="T"/>
+                          <xs:element name="Percentage">
+                            <xs:simpleType>
+                              <xs:restriction base="xs:float">
+                                <xs:maxInclusive value = "100.0"/>
+                                <xs:minInclusive value = "0.0"/>
+                              </xs:restriction>
+                            </xs:simpleType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
