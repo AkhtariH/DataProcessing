@@ -1,0 +1,90 @@
+{
+	"definitions": {},
+	"$schema": "http://json-schema.org/draft-07/schema#", 
+	"$id": "https://example.com/languages.json", 
+	"title": "Languages Schema",
+	"description": "Draft 07 Schema for Languages", 
+	"type": "object",
+	"required": [
+		"Languages"
+	],
+	"properties": {
+		"Languages": {
+			"$id": "#root/Languages", 
+			"title": "Languages", 
+			"type": "array",
+			"default": [],
+			"items":{
+				"$id": "#root/Languages/items", 
+				"title": "Items", 
+				"type": "object",
+				"required": [
+					"Language"
+				],
+				"properties": {
+					"Language": {
+						"$id": "#root/Languages/items/Language", 
+						"title": "Language", 
+						"type": "object",
+						"required": [
+							"CountryCode",
+							"Language",
+							"IsOfficial",
+							"Percentage"
+						],
+						"properties": {
+							"CountryCode": {
+								"$id": "#root/Languages/items/Language/CountryCode", 
+								"title": "Countrycode",
+								"type": "string",
+								"minLength": 3,
+								"maxLength": 3,
+								"default": "",
+								"examples": [
+									"AFG"
+								],
+								"pattern": "^.*$"
+							},
+							"Language": {
+								"$id": "#root/Languages/items/Language/Language", 
+								"title": "Language", 
+								"type": "string",
+								"minLength": 1,
+								"maxLength": 30,
+								"default": "",
+								"examples": [
+									"Balochi"
+								],
+								"pattern": "^.*$"
+							},
+							"IsOfficial": {
+								"$id": "#root/Languages/items/Language/IsOfficial", 
+								"title": "Isofficial", 
+								"type": "string",
+								"minLength": 1,
+								"maxLength": 1,
+								"default": "",
+								"examples": [
+									"F"
+								],
+								"pattern": "^.*$"
+							},
+							"Percentage": {
+								"$id": "#root/Languages/items/Language/Percentage", 
+								"title": "Percentage", 
+								"type": "number",
+								"minimum": 0.0,
+								"examples": [
+									0.9
+								],
+								"default": 0.0
+							}
+						}
+					}
+
+				}
+			}
+
+		}
+	}
+}

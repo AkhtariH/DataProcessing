@@ -145,7 +145,7 @@ namespace WorldREST
         public static String[] GetCountryCodes()
         {
 
-            var webRequest = WebRequest.Create("http://localhost:3001/api/v1/countries") as HttpWebRequest;
+            var webRequest = WebRequest.Create("http://localhost:3001/api/v1/countries/codes") as HttpWebRequest;
 
             webRequest.ContentType = "text/comma-separated-values";
             webRequest.UserAgent = "Nothing";

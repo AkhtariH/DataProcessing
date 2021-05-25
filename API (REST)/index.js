@@ -8,24 +8,21 @@ var mysql = require('mysql');
 
 
 // define route variables
-var countriesRouter = require('./routes/countries');
+var routes = require('./routes/world');
 
 // start express
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 // configs
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'jade');
 
 // Define all routes
-app.use('/api/v1/countries', countriesRouter);
+app.use('/api/v1', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -40,17 +37,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-/*var bodyParser = require('body-parser');
+//var bodyParser = require('body-parser');
 var xmlparser = require('express-xml-bodyparser');
 
-app.use(bodyParser.json()); 
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-}));
+// app.use(bodyParser.json()); 
+// app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+//   extended: true
+// }));
 
-app.use(xmlparser());*/
-
-module.exports = app;
+app.use(xmlparser());
 
 
 //Server listening

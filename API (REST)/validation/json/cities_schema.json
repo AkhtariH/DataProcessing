@@ -1,0 +1,100 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#", 
+  "$id": "https://example.com/cities.json", 
+  "title": "Cities Schema",
+  "description": "Draft 07 Schema for Cities", 
+  "type": "object",
+  "required": [
+    "Cities"
+  ],
+  "properties": {
+    "Cities": {
+      "$id": "#root/Cities", 
+      "title": "Cities", 
+      "type": "array",
+      "default": [],
+      "items":{
+        "$id": "#root/Cities/items", 
+        "title": "Items", 
+        "type": "object",
+        "required": [
+          "City"
+        ],
+        "properties": {
+          "City": {
+            "$id": "#root/Cities/items/City", 
+            "title": "City", 
+            "type": "object",
+            "required": [
+              "ID",
+              "Name",
+              "CountryCode",
+              "District",
+              "Population"
+            ],
+            "properties": {
+              "ID": {
+                "$id": "#root/Cities/items/City/ID", 
+                "title": "Id", 
+                "type": "integer",
+                "minimum": 1,
+                "examples": [
+                  1
+                ]
+              },
+              "Name": {
+                "$id": "#root/Cities/items/City/Name", 
+                "title": "Name", 
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 35,
+                "default": "",
+                "examples": [
+                  "Kabul"
+                ],
+                "pattern": "^.*$"
+              },
+              "CountryCode": {
+                "$id": "#root/Cities/items/City/CountryCode", 
+                "title": "Countrycode", 
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 3,
+                "default": "",
+                "examples": [
+                  "AFG"
+                ],
+                "pattern": "^.*$"
+              },
+              "District": {
+                "$id": "#root/Cities/items/City/District", 
+                "title": "District", 
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 20,
+                "default": "",
+                "examples": [
+                  "Kabol"
+                ],
+                "pattern": "^.*$"
+              },
+              "Population": {
+                "$id": "#root/Cities/items/City/Population", 
+                "title": "Population", 
+                "type": "integer",
+                "minimum": 0,
+                "examples": [
+                  1780000
+                ],
+                "default": 0
+              }
+            }
+          }
+
+        }
+      }
+
+    }
+  }
+}

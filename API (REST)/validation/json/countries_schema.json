@@ -1,0 +1,173 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#", 
+  "$id": "https://example.com/countries.json", 
+  "title": "Countries Schema",
+  "description": "Draft 07 Schema for Countries",
+  "type": "object",
+  "required": [
+    "Countries"
+  ],
+  "properties": {
+    "Countries": {
+      "$id": "#root/Countries", 
+      "title": "Countries", 
+      "type": "array",
+      "default": [],
+      "items":{
+        "$id": "#root/Countries/items", 
+        "title": "Items", 
+        "type": "object",
+        "required": [
+          "Country"
+        ],
+        "properties": {
+          "Country": {
+            "$id": "#root/Countries/items/Country", 
+            "title": "Country", 
+            "type": "object",
+            "required": [
+              "Code",
+              "Name",
+              "Continent",
+              "Region",
+              "SurfaceArea",
+              "Population",
+              "LifeExpectancy",
+              "GNP",
+              "HeadOfState",
+              "Capital",
+              "Code2"
+            ],
+            "properties": {
+              "Code": {
+                "$id": "#root/Countries/items/Country/Code", 
+                "title": "Code", 
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 3,
+                "default": "",
+                "examples": [
+                  "AFG"
+                ],
+                "pattern": "^.*$"
+              },
+              "Name": {
+                "$id": "#root/Countries/items/Country/Name", 
+                "title": "Name", 
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 52,
+                "default": "",
+                "examples": [
+                  "Afghanistan"
+                ],
+                "pattern": "^.*$"
+              },
+              "Continent": {
+                "$id": "#root/Countries/items/Country/Continent", 
+                "title": "Continent", 
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 52,
+                "default": "",
+                "examples": [
+                  "Asia"
+                ],
+                "pattern": "^.*$"
+              },
+              "Region": {
+                "$id": "#root/Countries/items/Country/Region", 
+                "title": "Region", 
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 52,
+                "default": "",
+                "examples": [
+                  "Southern and Central Asia"
+                ],
+                "pattern": "^.*$"
+              },
+              "SurfaceArea": {
+                "$id": "#root/Countries/items/Country/SurfaceArea", 
+                "title": "Surfacearea", 
+                "type": "integer",
+                "minimum": 0,
+                "examples": [
+                  652090
+                ],
+                "default": 0
+              },
+              "Population": {
+                "$id": "#root/Countries/items/Country/Population", 
+                "title": "Population", 
+                "type": "integer",
+                "minimum": 0,
+                "examples": [
+                  22720000
+                ],
+                "default": 0
+              },
+              "LifeExpectancy": {
+                "$id": "#root/Countries/items/Country/LifeExpectancy", 
+                "title": "Lifeexpectancy", 
+                "minimum": 0,
+                "type": "number",
+                "examples": [
+                  45.9
+                ],
+                "default": 0.0
+              },
+              "GNP": {
+                "$id": "#root/Countries/items/Country/GNP", 
+                "title": "Gnp", 
+                "type": "integer",
+                "minimum": 0,
+                "examples": [
+                  5976
+                ],
+                "default": 0
+              },
+              "HeadOfState": {
+                "$id": "#root/Countries/items/Country/HeadOfState", 
+                "title": "Headofstate", 
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 60,
+                "default": "",
+                "examples": [
+                  "Mohammad Omar"
+                ],
+                "pattern": "^.*$"
+              },
+              "Capital": {
+                "$id": "#root/Countries/items/Country/Capital", 
+                "title": "Capital", 
+                "type": "integer",
+                "minimum": 0,
+                "examples": [
+                  1
+                ],
+                "default": 0
+              },
+              "Code2": {
+                "$id": "#root/Countries/items/Country/Code2", 
+                "title": "Code2", 
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2,
+                "default": "",
+                "examples": [
+                  "AF"
+                ],
+                "pattern": "^.*$"
+              }
+            }
+          }
+
+        }
+      }
+
+    }
+  }
+}

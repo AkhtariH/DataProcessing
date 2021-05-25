@@ -8,12 +8,10 @@ var xmlparser = require('express-xml-bodyparser');
 var bodyParser = require('body-parser');
 var dbConnect = require('./dbConnect.js');
 
+var app = exports.app;
 
-
-
-
-// Show all results
-router.get('/', function(req, res, next) {
+// Get All country codes semicolon seperated
+app.get('/codes', function(req, res, next) {
 	let sql = "SELECT Code, Name FROM country";
 	let query = dbConnect.query(sql, (err, results) => {
 		if(err) throw err;
@@ -34,109 +32,97 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+// Show all countries
+router.get('/',function(req, res) {
+	let data = [];
+	let sql = "SELECT * FROM country;";
+	let query = dbConnect.query(sql, data, (err, results) => {
+		if(err) throw err;
+
+		var countriesJson = {
+			Countries: []
+		};
+
+		for (var i = 0; i < results.length; i++) {
+			var countryJson = {
+				Country : results[i]
+			};
+			countriesJson.Countries.push(countryJson);
+		}
+
+
+		// if url contains xml it should parse json to xml
+		if (req.headers['content-type'] == "application/xml"){
+
+			var xmlString = "<?xml version=\"1.0\"?>\n";
+			xmlString += "<Countries xmlns:xs=\"schema.xsd\">\n";
+			for (var i = 0; i < results.length; i++) {
+				xmlString += "<Country>\n";
+				Object.keys(results[i]).forEach(function(key) {
+				    var value = results[i][key];
+				    xmlString += "<" + key + ">" + value + "</" + key + ">\n";
+				});
+				xmlString += "</Country>\n";
+			}
+
+			xmlString += "</Countries>\n";
+
+			res.charset = 'utf-8';
+			res.send(xmlString);
+		} else {
+			res.send(countriesJson);
+		}
+
+	});
+
+});
 
 // Show single result
 router.get('/:code',function(req, res) {
 	
 	// get body from request
 	let data = [
-		req.params.code,
-		req.params.code,
 		req.params.code
 	];
 
-	let sql = "SELECT * FROM country WHERE Code = ?;SELECT Name, CountryCode, Population FROM city WHERE CountryCode = ?;SELECT CountryCode, Language, IsOfficial, Percentage FROM countrylanguage WHERE CountryCode = ?";
+	let sql = "SELECT * FROM country WHERE Code = ?;";
 	let query = dbConnect.query(sql, data, (err, results) => {
 		if(err) throw err;
 
-		// gets all tables and sorts city and languages in subcategories
-		for(var i = 0; i <= results[0].length - 1; i++){
-			var cities = [];
-			var lang = [];
+		var countriesJson = {
+			Countries: []
+		};
 
-			for (var x = 0; x <= results[1].length - 1; x++){
-				if (results[0][i].Code == results[1][x].CountryCode){
-					cities.push(results[1][x]);
-				}
-			}
-
-			results[0][i].Cities = cities;
-
-			for (var x = 0; x <= results[2].length - 1; x++){
-				if (results[0][i].Code == results[2][x].CountryCode){
-					lang.push(results[2][x]);
-				}
-			}
-
-			results[0][i].Languages = lang;
-			
+		for (var i = 0; i < results.length; i++) {
+			var countryJson = {
+				Country : results[i]
+			};
+			countriesJson.Countries.push(countryJson);
 		}
 
-		results.pop();
-		results.pop();
-
-		//console.log("asd");
 
 		// if url contains xml it should parse json to xml
 		if (req.headers['content-type'] == "application/xml"){
 
-			// Parser method (not allowed to use)
-			/*results = js2xmlparser.parse("country", results);
-			var s = results.replace("<country>", "<countries xmlns=''>");
-			var s2 = s.replace(/.{8}$/,"countries>");	
-			res.send(s2); */
-
-
 			var xmlString = "<?xml version=\"1.0\"?>\n";
 			xmlString += "<Countries xmlns:xs=\"schema.xsd\">\n";
-			xmlString += "<Country>\n";
-			Object.keys(results[0][0]).forEach(function(key) {
-			    var value = results[0][0][key];
-			    if (Array.isArray(value)){
-				    if (key == "Cities"){
-				    	xmlString += "<Cities>\n";
-				    } else if (key == "Languages"){
-				    	xmlString += "</Cities>\n";
-				    	xmlString += "<Languages>\n";
-				    }
-					value.forEach(function (item, index) {
-					    if (key == "Cities"){
-					    	xmlString += "<City>\n";
-					    } else if (key == "Languages"){
-					    	xmlString += "<Language>\n";
-					    }
+			for (var i = 0; i < results.length; i++) {
+				xmlString += "<Country>\n";
+				Object.keys(results[i]).forEach(function(key) {
+				    var value = results[i][key];
+				    xmlString += "<" + key + ">" + value + "</" + key + ">\n";
+				});
+				xmlString += "</Country>\n";
+			}
 
-						Object.keys(item).forEach(function(subKey) {
-							var subValue = item[subKey];
-						  	xmlString += "<" + subKey + ">" + subValue + "</" + subKey + ">\n";
-						});
-
-					    if (key == "Cities"){
-					    	xmlString += "</City>\n";
-					    } else if (key == "Languages"){
-					    	xmlString += "</Language>\n";
-					    }
-					});
-
-
-			    } else {
-			    	xmlString += "<" + key + ">" + value + "</" + key + ">\n";
-			    }
-			    
-			});
-
-			xmlString += "</Languages>\n";
-			xmlString += "</Country>\n";
 			xmlString += "</Countries>\n";
 
 			res.charset = 'utf-8';
 			res.send(xmlString);
 		} else {
-			res.send(results[0][0]);
+			res.send(countriesJson);
 		}
 
-		//console.log(req.get("Content-Header"));
-		//js2xmlparser.parse("country", results)
 	});
 
 });

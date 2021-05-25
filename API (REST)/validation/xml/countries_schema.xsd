@@ -1,0 +1,75 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="Countries">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Country" minOccurs="0" maxOccurs="250">
+          <xs:complexType>
+            <xs:sequence>
+               <xs:simpleType name="defaultString">  
+                  <xs:restriction base="xs:string">
+                    <xs:minLength value="1" />
+                    <xs:maxLength value="52" />
+                  </xs:restriction>  
+               </xs:simpleType>  
+              <xs:element name="Code" minOccurs="1" maxOccurs="1">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="3" />
+                    <xsd:maxLength value="3" />
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xs:element>
+              <xs:element name="Name" type="tns:defaultString" minOccurs="1" maxOccurs="1" />
+              <xs:element name="Continent" type="tns:defaultString" minOccurs="1" maxOccurs="1" />
+              <xs:element name="Region" type="tns:defaultString" minOccurs="1" maxOccurs="1" />
+              <xs:element name="SurfaceArea" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:restriction base="xs:float">
+                    <xs:minInclusive value="0.0"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Population" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:restriction base="xs:int">
+                    <xs:minInclusive value="0"/>
+                  </xs:restriction>
+                </xs:simpleType>  
+              </xs:element>
+              <xs:element name="LifeExpectancy" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:restriction base="xs:float">
+                    <xs:minInclusive value="0.0"/>
+                    <xs:maxInclusive value="100.0"/>
+                  </xs:restriction>
+                </xs:simpleType>  
+              <xs:element name="GNP" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:restriction base="xs:float">
+                    <xs:minInclusive value="0.0"/>
+                  </xs:restriction>
+                </xs:simpleType>                  
+              </xs:element>
+              <xs:element type="tns:defaultString" name="HeadOfState" minOccurs="1" maxOccurs="1" />
+              <xs:element name="Capital" minOccurs="1" maxOccurs="1">
+                <xs:simpleType>
+                  <xs:restriction base="xs:int">
+                    <xs:minInclusive value="0"/>
+                  </xs:restriction>
+                </xs:simpleType>  
+              </xs:element>
+              <xs:element name="Code2" minOccurs="1" maxOccurs="1">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="2" />
+                    <xsd:maxLength value="2" />
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
