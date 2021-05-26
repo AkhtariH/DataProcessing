@@ -54,11 +54,11 @@ def indexXML(code):
 	gnpLenght = len(str(countryGNP))
 	gnp = 0
 	if gnpLenght >= 5 and gnpLenght <= 6:
-		gnp = int(countryGNP) // 1000
+		gnp = float(countryGNP) // 1000
 	elif gnpLenght >= 7:
-		gnp = round(int(countryGNP), -6) // 1000000
+		gnp = round(float(countryGNP), -6) // 1000000
 	else:
-		gnp = int(countryGNP)
+		gnp = float(countryGNP)
 
 	return render_template('XMLindex.html', country=country, cities=citiesRoot, languages=languagesRoot, allCountries=allCountries, districts=districts, population=population, surfaceArea=surfaceArea, gnp=gnp)
 
