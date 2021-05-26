@@ -39,18 +39,30 @@ const codes = (req, res, next) => {
 		if(err) throw err;
 
 		var endResult = [];
-		var result = results.map(function(val) {
-		  return val.Name;
-		}).join(';');
+		for (var i = 0; i < results.length; i++) {
+			endResult.push({Code: results[i].Code, Name: results[i].Name});
+		}
+		
+		res.send(JSON.stringify(endResult));
+	});
+};
 
-		var resultCode = results.map(function(val) {
-		  return val.Code;
-		}).join(';');
+// Check if Code exists
+const exist = (req, res, next) => {
+	let data = [req.params.code];
+
+	let sql = "SELECT Code FROM country WHERE Code = ?;";
+	let query = connection.query(sql, data, async (err, results) => {
+		if(err) throw err;
+
+		var exists;
+		if (results.length > 0) {
+			exists = true;
+		} else {
+			exists = false;
+		}
 		
-		endResult.push(resultCode);
-		endResult.push(result);	
-		res.send(JSON.stringify(endResult));		
-		
+		res.send(exists);
 	});
 };
 
@@ -109,7 +121,6 @@ const country = (req, res, next) => {
 		if(err) throw err;
 
 		var result = null;
-		var isValid = false;
 		var countriesJson = {
 			Countries: []
 		};
@@ -141,7 +152,6 @@ const country = (req, res, next) => {
 			res.charset = 'utf-8';
 			result = xmlString;
 		} else {
-			isValidJSON(countriesJson, "validation/json/schema.json");
 			result = countriesJson;
 		}
 
@@ -216,6 +226,7 @@ const del = (req, res, next) => {
 
 module.exports = {
 	codes,
+	exist,
 	countries,
 	country,
 	create,

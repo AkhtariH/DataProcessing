@@ -7,6 +7,7 @@ var xmlparser = require('express-xml-bodyparser');
 
 // Countries Routes (CRUD)
 router.get('/countries/codes', countriesController.codes);
+router.get('/countries/exist/:code', countriesController.exist);
 router.get('/countries', countriesController.countries);
 router.get('/countries/:code', countriesController.country);
 router.post('/countries', xmlparser(), countriesController.create);
@@ -21,6 +22,7 @@ router.put('/languages/:code', xmlparser(), languagesController.update);
 router.delete('/languages/:code', xmlparser(), languagesController.del);
 
 // Cities Routes (CRUD)
+router.get('/cities/districts/:code', citiesController.districts);
 router.get('/cities', citiesController.cities);
 router.get('/cities/:code', citiesController.city);
 router.post('/cities', xmlparser(), citiesController.create);

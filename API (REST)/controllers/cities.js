@@ -159,10 +159,21 @@ const del = (req, res, next) => {
 	});
 };
 
+const districts = (req, res, next) => {
+	let sql = "SELECT District FROM `city` WHERE CountryCode = '" + req.params.code + "' GROUP BY District";
+	let query = connection.query(sql, (err, results) => {
+		if(err) throw err;
+		res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+	});
+};
+
+
+
 module.exports = {
 	cities,
 	city,
 	create,
 	update,
-	del
+	del,
+	districts
 };

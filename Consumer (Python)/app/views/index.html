@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>World - Dashboard</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link href="{{ url_for('static', filename='vendor/jqvmap/css/jqvmap.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='vendor/chartist/css/chartist.min.css') }}">
+    <link href="{{ url_for('static', filename='vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+	<link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/all.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ url_for('static', filename='vendor/select2/css/select2.min.css') }}">
+	
+
+</head>
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="sk-three-bounce">
+            <div class="sk-child sk-bounce1"></div>
+            <div class="sk-child sk-bounce2"></div>
+            <div class="sk-child sk-bounce3"></div>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <a href="index.html" class="brand-logo">
+                <img class="logo-abbr" src="{{ url_for('static', filename='images/logo.png') }}" alt="">
+                <img class="logo-compact" src="{{ url_for('static', filename='images/logo-text.png') }}" alt="">
+                <img class="brand-title" src="{{ url_for('static', filename='images/logo-text.png') }}" alt="">
+            </a>
+
+            <div class="nav-control">
+                <div class="hamburger">
+                    <span class="line"></span><span class="line"></span><span class="line"></span>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+		
+		<!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content">
+                <nav class="navbar navbar-expand">
+                    <div class="collapse navbar-collapse justify-content-between">
+                        <div class="header-left">
+
+							<div class="search_bar dropdown show">
+                                <div class="dropdown-menu p-0 m-0 show">
+                                    <form>
+			                            <select id="single-select" class="from-control" type="select">
+			                                {% for country in allCountries %}
+			                                	<option value="{{country['Code']}}">{{country["Name"]}}</option>
+			                                {% endfor %}
+			                            </select>
+                                    </form>
+                                </div>
+	                        </div>
+	                    </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="deznav">
+            <div class="deznav-scroll">
+				<ul class="metismenu" id="menu">
+                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+							<i class="flaticon-381-networking"></i>
+							<span class="nav-text">Dashboard</span>
+						</a>
+                        <ul aria-expanded="false">
+							<li><a href="index.html">Dashboard</a></li>
+						</ul>
+                    </li>
+                </ul>
+            
+				<div class="copyright">
+					<p><strong>Hemran A.</strong> © 2021 All Rights Reserved</p>
+					
+				</div>
+			</div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+		
+		<!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+            <!-- row -->
+			<div class="container-fluid">
+				<div class="form-head d-flex mb-3 align-items-start">
+					<div class="mr-auto d-none d-lg-block">
+						<h2 class="text-black font-w600 mb-0">
+							{{countries[0]["Country"]["Name"]}}
+						</h2>
+						<p class="mb-0">
+							<strong>Capital: </strong>
+							{% for city in cities %}
+								{% if city["City"]["ID"] == countries[0]["Country"]["Capital"] %}
+									{{ city["City"]["Name"] }}
+								{% endif %}
+							{% endfor %}
+						</p>
+					</div>
+					
+					<div class="dropdown custom-dropdown">
+						<div class="btn btn-sm btn-primary light d-flex align-items-center svg-btn" data-toggle="dropdown">
+							<i class="fas fa-database"></i>
+							<div class="text-left ml-3">
+								<span class="d-block fs-16">Format</span>
+								<small class="d-block fs-13">JSON</small>
+							</div>
+							<i class="fa fa-angle-down scale5 ml-3"></i>
+						</div>
+						<div class="dropdown-menu dropdown-menu-right">
+							<a class="dropdown-item" href="javascript:void()">JSON</a>
+							<a class="dropdown-item" href="javascript:void()" onclick="redirectXML()">XML</a>
+						</div>
+					</div>
+				</div>
+                <div class="row">
+					<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="mr-3 bgl-primary text-primary">
+										<i class="fas fa-users"></i>
+
+									</span>
+									<div class="media-body">
+										<h3 class="mb-0 text-black">
+											<span class="counter ml-0">{{population}}</span>{% if (countries[0]["Country"]["Population"]|string())|length >= 7 %}M{% elif (countries[0]["Country"]["Population"]|string())|length <= 6 and (countries[0]["Country"]["Population"]|string())|length >= 5 %}K{% endif %}
+										</h3>
+										<p class="mb-0">Population</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="mr-3 bgl-primary text-primary">
+										<i class="far fa-square"></i>
+									</span>
+									<div class="media-body">
+										<h3 class="mb-0 text-black">
+											<span class="counter ml-0">{{surfaceArea}}</span>{% if (countries[0]["Country"]["SurfaceArea"]|string())|length >= 7 %}M{% elif (countries[0]["Country"]["SurfaceArea"]|string())|length <= 6 and (countries[0]["Country"]["SurfaceArea"]|string())|length >= 5 %}K{% endif %}
+										</h3>
+										<p class="mb-0">Surface Area</p>
+										<small>km²</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="mr-3 bgl-primary text-primary">
+										<i class="fas fa-heartbeat"></i>
+									</span>
+									<div class="media-body">
+										<h3 class="mb-0 text-black"><span class="counter ml-0">{{countries[0]["Country"]["LifeExpectancy"]}}</span></h3>
+										<p class="mb-0">Longevity</p>
+										<small>Years</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-3 col-xxl-3 col-lg-6 col-md-6 col-sm-6">
+						<div class="widget-stat card">
+							<div class="card-body p-4">
+								<div class="media ai-icon">
+									<span class="mr-3 bgl-primary text-primary">
+										<i class="fas fa-dollar-sign"></i>
+									</span>
+									<div class="media-body">
+										<h3 class="mb-0 text-black">
+											<span class="counter ml-0">{{gnp}}</span>{% if (countries[0]["Country"]["GNP"]|string())|length >= 7 %}M{% elif (countries[0]["Country"]["GNP"]|string())|length <= 6 and (countries[0]["Country"]["GNP"]|string())|length >= 5 %}K{% endif %}
+										</h3>
+										<p class="mb-0">GNP</p>
+										<small>Dollar</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-xxl-6 col-lg-12 col-md-12">
+						<div class="card text-white bg-primary">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Code :</span><strong>{{countries[0]["Country"]["Code"]}}</strong></li>
+								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Continent :</span><strong>{{countries[0]["Country"]["Continent"]}}</strong></li>
+								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Region :</span><strong>{{countries[0]["Country"]["Region"]}}</strong></li>
+								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Head of State :</span><strong>{{countries[0]["Country"]["HeadOfState"]}}</strong></li>
+								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Alternative Code :</span><strong>{{countries[0]["Country"]["Code2"]}}</strong></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-xl-6 col-xxl-6 col-lg-12 col-md-12">
+						<div class="card">
+							<div class="card-header border-0 pb-0 d-sm-flex d-block">
+								<div>
+									<h4 class="card-title mb-1">Languages</h4>
+									<small class="mb-0">Details about the Languages spoken</small>
+								</div>
+							</div>
+							<div class="card-body orders-summary">
+								<div class="row">
+									<div class="col-sm-12 mb-12">
+										<div class="border px-3 py-3 rounded-xl">
+											<h2 class="fs-20 font-w600">
+												{% for language in languages %}
+													{% if language["Language"]["IsOfficial"] == "T" %}
+														{{ language["Language"]["Language"] }}
+													{% endif %}
+												{% endfor %}												
+											</h2>
+											<p class="fs-16 mb-0">Official Language</p>
+										</div>
+									</div>
+								</div>
+								<div class="widget-timeline-icon">
+									<div class="row align-items-center mx-0">
+										<div class="col-xl-12 col-lg-12 col-xxl-12 col-sm-12 px-0 my-2 text-center text-sm-left">
+											<div id="morris_donught" class="morris_chart_height"></div>
+										</div>	
+									</div>	
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-12 col-xxl-12 col-lg-12 col-md-12">
+						<div id="user-activity" class="card">
+							<div class="card-header border-0 pb-0 d-sm-flex d-block">
+								<div>
+									<h4 class="card-title mb-1">Cities</h4>
+									<small class="mb-0">Details about the Cities</small>
+								</div>
+								<div class="card-action card-tabs mt-3 mt-sm-0">
+                                    <form style="width:200px">
+	                                    <label class="mb-4 select2-label" for="id_label_single" style="width: 200px;">
+	                                    	District <br>
+
+				                            <select id="single-select2" class="select2-with-label-single js-states d-block from-control" type="select">
+				                            	<option value="top">Choose District</option>
+				                                {% for district in districts %}
+				                                	<option value="{{district['District']}}">{{district["District"]}}</option>
+				                                {% endfor %}
+				                            </select>
+				                        </label>
+                                    </form>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="tab-content" id="myTabContent">
+									<div class="tab-pane fade show active" id="user" role="tabpanel">
+										<canvas id="barChart_1" style="width: 100vw;height: 600px;" class="chartjs-render-monitor"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				 </div>
+            </div>
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+
+
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <!-- Required vendors -->
+    <script src="{{ url_for('static', filename='vendor/global/global.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='vendor/chart.js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/deznav-init.js') }}"></script>
+	
+	<!-- Counter Up -->
+    <script src="{{ url_for('static', filename='vendor/waypoints/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/jquery.counterup/jquery.counterup.min.js') }}"></script>	
+		
+	<!-- Apex Chart -->
+	<script src="{{ url_for('static', filename='vendor/apexchart/apexchart.js') }}"></script>	
+	
+	<!-- Chart piety plugin files -->
+	<script src="{{ url_for('static', filename='vendor/peity/jquery.peity.min.js') }}"></script>
+	
+	<!-- Dashboard 1 -->
+	<script src="{{ url_for('static', filename='js/dashboard/dashboard-1.js') }}"></script>
+
+    <!-- Chart ChartJS plugin files -->
+       <script src="{{ url_for('static', filename='vendor/raphael/raphael.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/morris/morris.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/select2/js/select2.full.min.js') }}"></script>
+
+	<script type="text/javascript">
+		function redirectXML() {
+			window.location.replace("xml" + window.location.pathname);
+		}
+
+
+		$("#single-select").select2({
+			width: "resolve"
+		});
+		$("#single-select2").select2({
+			width: "resolve"
+		});
+		var countries = {{countries|tojson}};
+		$("#single-select").val(countries[0].Country.Code);
+		$('#single-select').trigger('change');
+		$(document.body).on("change","#single-select",function(){
+			window.location.replace("/" + this.value);
+		});
+
+		// Bar Chart
+		var myVarCities = {{cities|tojson}};
+		var dataCitiesArr = [];
+		var labelCitiesArr = [];
+		for (var i = 0; i < myVarCities.length; i++) {
+			dataCitiesArr.push(myVarCities[i].City.Population);
+			labelCitiesArr.push(myVarCities[i].City.Name);
+		}
+	    const barChart_1 = document.getElementById("barChart_1").getContext('2d');
+	    
+
+	    var barChart = new Chart(barChart_1, {
+	        type: 'bar',
+	        data: {
+	            defaultFontFamily: 'Poppins',
+	            labels: labelCitiesArr.slice(0, 10),
+	            datasets: [
+	                {
+	                    label: "Population",
+	                    data: dataCitiesArr.slice(0, 10),
+	                    borderColor: 'rgba(47, 76, 221, 1)',
+	                    borderWidth: "0",
+	                    backgroundColor: 'rgba(47, 76, 221, 1)'
+	                }
+	            ]
+	        },
+	        options: {
+	            legend: false, 
+	            scales: {
+	                yAxes: [{
+	                    ticks: {
+	                        beginAtZero: true
+	                    }
+	                }],
+	                xAxes: [{
+	                    // Change here
+	                    barPercentage: 0.5
+	                }]
+	            }
+	        }
+	    });
+
+	    function setData(chart, label, data) {
+		    chart.data.labels = label;
+		    chart.data.datasets.forEach((dataset) => {
+		        dataset.data = data;
+		    });
+		    chart.update();
+		}
+
+		$(document.body).on("change","#single-select2",function(){
+			$("canvas[id^='barChart']").each(function (i, el) {
+		        if (el.id != "barChart_1") {
+		        	el.remove();
+		        }
+		    });
+			var dataCitiesArr = [];
+			var labelCitiesArr = [];
+			for (var i = 0; i < myVarCities.length; i++) {
+				if (this.value != "top") {
+					if (myVarCities[i].City.District == this.value) {
+						dataCitiesArr.push(myVarCities[i].City.Population);
+						labelCitiesArr.push(myVarCities[i].City.Name);
+					}
+				} else {
+					dataCitiesArr.push(myVarCities[i].City.Population);
+					labelCitiesArr.push(myVarCities[i].City.Name);
+				}
+			}
+
+			if (this.value == "top") {
+				dataCitiesArr = dataCitiesArr.slice(0, 5);
+				labelCitiesArr = labelCitiesArr.slice(0, 5);
+			} else {
+				if (dataCitiesArr.length > 10) {
+					var counter = 0;
+					for (var i = 0; i < dataCitiesArr.length; i = i + 10) {
+						counter++;
+					}
+
+
+					for (var i = 0; i < counter - 1; i++) {
+						$('#barChart_' + (i + 1)).after('<canvas id="barChart_' + (i + 2) + '" style="width: 100vw;height: 600px;" class="chartjs-render-monitor"></canvas>');
+
+					    var barChart2 = new Chart($("#barChart_" + (i + 2)), {
+					        type: 'bar',
+					        data: {
+					            defaultFontFamily: 'Poppins',
+					            labels: labelCitiesArr.slice(((i + 1) * 10) + 1, ((i + 1) * 10) + 10),
+					            datasets: [
+					                {
+					                    label: "Population",
+					                    data: dataCitiesArr.slice(((i + 1) * 10) + 1, ((i + 1) * 10) + 10),
+					                    borderColor: 'rgba(47, 76, 221, 1)',
+					                    borderWidth: "0",
+					                    backgroundColor: 'rgba(47, 76, 221, 1)'
+					                }
+					            ]
+					        },
+					        options: {
+					        	indexAxis: 'y',
+					            legend: false,
+					            scales: {
+					                yAxes: [{
+					                    ticks: {
+					                        beginAtZero: true
+					                    }
+					                }],
+					                xAxes: [{
+					                    // Change here
+					                    barPercentage: 0.5
+					                }]
+					            }
+					        }
+					    });
+					}
+
+				}
+			}
+		    
+			setData(barChart, labelCitiesArr.slice(0, 10), dataCitiesArr.slice(0, 10));
+		});
+
+		// Donut Chart
+		var myVar = {{languages|tojson}};
+		var dataArr = [];
+		var labelArr = [];
+		var colors = [
+			'#2f4cdd',
+			'rgb(255, 109, 76)',
+			'#2bc155',
+			'#1abc9c',
+			'#2ecc71',
+			'#3498db',
+			'#9b59b6',
+			'#34495e',
+			'#16a085',
+			'#27ae60',
+			'#2980b9',
+			'#8e44ad',
+			'#2c3e50',
+			'#f1c40f',
+			'#e67e22',
+			'#e74c3c',
+			'#ecf0f1',
+			'#95a5a6',
+			'#d35400',
+			'#c0392b',
+			'#bdc3c7',
+			'#7f8c8d'
+		];
+		
+		var counter = 0;
+		for (var i = 0; i < myVar.length; i++) {
+			dataArr.push({label: "\xa0 \xa0" + myVar[i].Language.Language + "\xa0 \xa0", value: myVar[i].Language.Percentage});
+			counter++;
+		}
+		var chosenColors = colors.slice(0, counter);
+		console.log(chosenColors);
+		var donutChart = function(){
+			Morris.Donut({
+				element: 'morris_donught',
+				data: dataArr,
+				resize: true,
+				redraw: true,
+				colors: chosenColors,
+				responsive:true,
+				formatter: function (value, data) { return value + '%'; }
+			});
+		}
+
+		donutChart();
+
+	</script>
+
+	
+</body>
+</html>
