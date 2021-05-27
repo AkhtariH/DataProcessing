@@ -25,5 +25,6 @@ I used Node.JS for the API and Python Flask to consume it.
 
 ### Python Flask
 1. Navigate to Consumer (Python)
-2. ``` flask run ```
-3. Go to browser and type in flask URL (usually: http://127.0.0.1:5000)
+2. ``` pip install flask ```
+3. ``` flask run ```
+4. Go to browser and type in flask URL (usually: http://127.0.0.1:5000)
