@@ -21,11 +21,13 @@ I used Node.JS for the API and Python Flask to consume it.
 2. ``` cd DataProcessing ```
 3. Create database named world and upload sql file (SQL/world.sql) to your database
 4. Change database credentials in API (REST)/database/dbConnect.js if needed
-5. Navigate to API (REST) folder and execute command: ``` npm install ```
-6. ``` node index ```
+5. ``` cd API ```
+6. ``` npm install ```
+7. ``` node index ```
 
 ### Python Flask
-1. Navigate to Consumer (Python)
-2. ``` pip install flask ```
-3. ``` flask run ```
-4. Go to browser and type in flask URL (usually: http://127.0.0.1:5000)
+1. Open new command line
+2. Navigate to Consumer folder
+3. ``` venv\Scripts\activate ```
+5. ``` flask run ```
+6. Go to browser and type in flask URL (usually: http://127.0.0.1:5000)
