@@ -1,52 +1,43 @@
-// import libraries
+// Import dependencies
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mysql = require('mysql');
+var xmlparser = require('express-xml-bodyparser');
 
-
-// define route variables
+// Define routes dependency
 var routes = require('./routes/world');
 
-// start express
+// Start express
 var app = express();
 
-// configs
+// Configs
 app.use(logger('dev'));
+app.use(xmlparser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'jade');
 
-// Define all routes
+
+// Define base route
 app.use('/api/v1', routes);
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
   res.render('error');
 });
-
-//var bodyParser = require('body-parser');
-var xmlparser = require('express-xml-bodyparser');
-
-// app.use(bodyParser.json()); 
-// app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-//   extended: true
-// }));
-
-app.use(xmlparser());
-
 
 //Server listening
 app.listen(3001,() =>{

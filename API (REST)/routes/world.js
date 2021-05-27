@@ -1,4 +1,5 @@
-const express = require('express'); //import express
+// Import dependencies
+const express = require('express');
 const router  = express.Router(); 
 const countriesController = require('../controllers/countries'); 
 const languagesController = require('../controllers/languages'); 
@@ -29,4 +30,4 @@ router.post('/cities', xmlparser(), citiesController.create);
 router.put('/cities/:code', xmlparser(), citiesController.update);
 router.delete('/cities/:code', xmlparser(), citiesController.del);
 
-module.exports = router; // export to use in server.js
+module.exports = router; // export to use in index.js

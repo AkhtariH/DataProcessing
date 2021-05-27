@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,8 +14,6 @@
 	<link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">
 	<link href="{{ url_for('static', filename='css/all.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ url_for('static', filename='vendor/select2/css/select2.min.css') }}">
-	
-
 </head>
 <body>
 
@@ -72,6 +69,7 @@
                                 <div class="dropdown-menu p-0 m-0 show">
                                     <form>
 			                            <select id="single-select" class="from-control" type="select">
+			                            	<!-- Create Select option for each country with Code as value -->
 			                                {% for country in allCountries %}
 			                                	<option value="{{country['Code']}}">{{country["Name"]}}</option>
 			                                {% endfor %}
@@ -123,10 +121,12 @@
 				<div class="form-head d-flex mb-3 align-items-start">
 					<div class="mr-auto d-none d-lg-block">
 						<h2 class="text-black font-w600 mb-0">
+							<!-- Print name of country -->
 							{{country.find('Name').text}}
 						</h2>
 						<p class="mb-0">
 							<strong>Capital: </strong>
+							<!-- Print Capital of Country -->
 							{% for elem in cities.findall('City') %}
 								{% if elem.find('ID').text == country.find('Capital').text %}
 									{{ elem.find('Name').text }}
@@ -160,7 +160,7 @@
 
 									</span>
 									<div class="media-body">
-										<h3 class="mb-0 text-black">
+										<h3 class="mb-0 text-black"><!-- Print population and either K (thousand) or M (million) depending on number -->
 											<span class="counter ml-0">{{population}}</span>{% if (country.find('Population').text|string())|length >= 7 %}M{% elif (country.find('Population').text|string())|length <= 6 and (country.find('Population').text|string())|length >= 5 %}K{% endif %}
 										</h3>
 										<p class="mb-0">Population</p>
@@ -177,7 +177,7 @@
 										<i class="far fa-square"></i>
 									</span>
 									<div class="media-body">
-										<h3 class="mb-0 text-black">
+										<h3 class="mb-0 text-black"><!-- Print Surface Area -->
 											<span class="counter ml-0">{{surfaceArea}}</span>{% if (country.find('SurfaceArea').text|string())|length >= 7 %}M{% elif (country.find('SurfaceArea').text|string())|length <= 6 and (country.find('SurfaceArea').text|string())|length >= 5 %}K{% endif %}
 										</h3>
 										<p class="mb-0">Surface Area</p>
@@ -194,7 +194,7 @@
 									<span class="mr-3 bgl-primary text-primary">
 										<i class="fas fa-heartbeat"></i>
 									</span>
-									<div class="media-body">
+									<div class="media-body"><!-- Print Life Expectancy -->
 										<h3 class="mb-0 text-black"><span class="counter ml-0">{{country.find('LifeExpectancy').text}}</span></h3>
 										<p class="mb-0">Longevity</p>
 										<small>Years</small>
@@ -211,7 +211,7 @@
 										<i class="fas fa-dollar-sign"></i>
 									</span>
 									<div class="media-body">
-										<h3 class="mb-0 text-black">
+										<h3 class="mb-0 text-black"><!-- Print GNP -->
 											<span class="counter ml-0">{{gnp}}</span>{% if (country.find('GNP').text|string())|length >= 7 %}M{% elif (country.find('GNP').text|string())|length <= 6 and (country.find('GNP').text|string())|length >= 5 %}K{% endif %}
 										</h3>
 										<p class="mb-0">GNP</p>
@@ -223,7 +223,7 @@
 					</div>
 					<div class="col-xl-6 col-xxl-6 col-lg-12 col-md-12">
 						<div class="card text-white bg-primary">
-							<ul class="list-group list-group-flush">
+							<ul class="list-group list-group-flush"><!-- Print info about Country -->
 								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Code :</span><strong>{{country.find('Code').text}}</strong></li>
 								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Continent :</span><strong>{{country.find('Continent').text}}</strong></li>
 								<li class="list-group-item d-flex justify-content-between"><span class="mb-0">Region :</span><strong>{{country.find('Region').text}}</strong></li>
@@ -244,7 +244,7 @@
 								<div class="row">
 									<div class="col-sm-12 mb-12">
 										<div class="border px-3 py-3 rounded-xl">
-											<h2 class="fs-20 font-w600">
+											<h2 class="fs-20 font-w600"><!-- Print official language(s) -->
 												{% for elem in languages.findall('Language') %}
 													{% if elem.find('IsOfficial').text == "T" %}
 														{{ elem.find('Language').text }}
@@ -276,7 +276,7 @@
                                     <form style="width:200px">
 	                                    <label class="mb-4 select2-label" for="id_label_single" style="width: 200px;">
 	                                    	District <br>
-
+	                                    	<!-- Create select with each districts of country -->
 				                            <select id="single-select2" class="select2-with-label-single js-states d-block from-control" type="select">
 				                            	<option value="top">Choose District</option>
 				                                {% for district in districts %}
@@ -338,6 +338,7 @@
     <script src="{{ url_for('static', filename='vendor/select2/js/select2.full.min.js') }}"></script>
 
 	<script type="text/javascript">
+		// Redirect to JSON Page
 		function redirectJSON() {
 			var path = window.location.pathname;
 			var n = path.lastIndexOf('/');
@@ -357,11 +358,13 @@
 
 		$("#single-select").val("{{country.find('Code').text}}");
 		$('#single-select').trigger('change');
+		// When Country Select changes, redirect
 		$(document.body).on("change","#single-select",function(){
 			window.location.replace("/xml/" + this.value);
 		});
 
 		// Bar Chart
+		// Push City Population and name to array
 		var dataCitiesArr = [];
 		var labelCitiesArr = [];
 		{% for city in cities %}
@@ -370,7 +373,7 @@
 		{% endfor %}
 	    const barChart_1 = document.getElementById("barChart_1").getContext('2d');
 	    
-
+	    // Create the Bar chart with the data
 	    var barChart = new Chart(barChart_1, {
 	        type: 'bar',
 	        data: {
@@ -410,27 +413,30 @@
 		    chart.update();
 		}
 
+		// When District Select changes
 		$(document.body).on("change","#single-select2",function(){
+			// Remove each chart
 			$("canvas[id^='barChart']").each(function (i, el) {
 		        if (el.id != "barChart_1") {
 		        	el.remove();
 		        }
 		    });
 
-				var dataCitiesArr = [];
-				var labelCitiesArr = [];
-				{% for city in cities %}
-					if (this.value != "top") {
-						if ("{{city.find('District').text}}" == this.value) {
-							dataCitiesArr.push("{{city.find('Population').text}}");
-							labelCitiesArr.push("{{city.find('Name').text}}");
-						}
-					} else {
+			// Push data to array
+			var dataCitiesArr = [];
+			var labelCitiesArr = [];
+			{% for city in cities %}
+				// If value is not the first option, then only push data from specific District
+				if (this.value != "top") {
+					if ("{{city.find('District').text}}" == this.value) {
 						dataCitiesArr.push("{{city.find('Population').text}}");
 						labelCitiesArr.push("{{city.find('Name').text}}");
 					}
-
-				{% endfor %}
+				} else {
+					dataCitiesArr.push("{{city.find('Population').text}}");
+					labelCitiesArr.push("{{city.find('Name').text}}");
+				}
+			{% endfor %}
 
 			
 
@@ -517,7 +523,7 @@
 
 		var counter = 0;
 		{% for language in languages %}
-			dataArr.push({label: "\xa0 \xa0" + "{{language.find('Language').text}}" + "\xa0 \xa0", value: {{language.find('Percentage').text|int}}});
+			dataArr.push({label: "\xa0 \xa0" + "{{language.find('Language').text}}" + "\xa0 \xa0", value: {{language.find('Percentage').text|float}}});
 			counter++;
 		{% endfor %}
 		
