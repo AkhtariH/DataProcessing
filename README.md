@@ -20,7 +20,7 @@ I used Node.JS for the API and Python Flask to consume it.
 1. ``` git clone https://github.com/AkhtariH/DataProcessing.git ```
 2. ``` cd DataProcessing ```
 3. Create database named world and upload sql file (SQL/world.sql) to your database
-4. Change database credentials in API (REST)/database/dbConnect.js if needed
+4. Change database credentials in API/database/dbConnect.js if needed
 5. ``` cd API ```
 6. ``` npm install ```
 7. ``` node index ```
