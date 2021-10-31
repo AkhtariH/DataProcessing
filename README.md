@@ -28,6 +28,9 @@ I used Node.JS for the API and Python Flask to consume it.
 ### Python Flask
 1. Open new command line
 2. Navigate to Consumer folder
-3. ``` venv\Scripts\activate ```
-5. ``` flask run ```
-6. Go to browser and type in flask URL (usually: http://127.0.0.1:5000)
+3. Install virtualenv: ``` pip3 install -U pip virtualenv ```
+4. ``` python -m virtualenv . ```
+5. Activate Env: ``` .\scripts\activate ```
+6. Install dependencies: ``` pip3 install -r requirements.txt ```
+7. Run app: ``` flask run ```
+8. Go to browser and type in flask URL (usually: http://127.0.0.1:5000)
